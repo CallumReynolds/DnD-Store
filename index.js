@@ -19,31 +19,34 @@ let jsonData = `
             `
 
 function createTableFromJSON(jsonData) {
-    let data = JSON.parse(jsonData);
-    let table = document.createElement('table');
-  
-    // create header row
-    let headerRow = table.insertRow();
-    for (let key in data[0]) {
-      let headerCell = document.createElement('th');
-      let headerText = document.createTextNode(key);
-      headerCell.appendChild(headerText);
-      headerRow.appendChild(headerCell);
-    }
-  
-    // create data rows
+    // Parse the JSON object into a JavaScript object
+    const data = JSON.parse(jsonData);
+    
+    // Create an string variable with table headers to store the table HTML code
+    let tableHtml = `<tr>
+                        <th>Name</th>
+                        <th>Cost</th>
+                        <th>Weight</th>
+                    </tr>`;
+    
+    // Loop through the JavaScript object and append each row of data to the table HTML code
     for (let i = 0; i < data.length; i++) {
-      let row = table.insertRow();
-      for (let key in data[i]) {
-        let cell = row.insertCell();
-        let cellText = document.createTextNode(data[i][key]);
-        cell.appendChild(cellText);
-      }
+        tableHtml += '<tr>';
+        tableHtml += '<td>' + data[i].Item + '</td>';
+        tableHtml += '<td>' + data[i].Cost + '</td>';
+        tableHtml += '<td>' + data[i].Weight + '</td>';
+        tableHtml += '</tr>';
     }
-  
-    return table;
-}
+    
+    // Create a table element and add the Bootstrap classes to it
+    const tableElement = document.createElement('table');
+    tableElement.classList.add('table', 'table-striped');
+    
+    // Set the innerHTML of the table element to the table HTML code
+    tableElement.innerHTML = tableHtml;
+    
+    // Add the table element to the DOM
+    document.body.appendChild(tableElement);
+    }
 
-let table = createTableFromJSON(jsonData);
-
-document.getElementById('items').appendChild(table);
+createTableFromJSON(jsonData);
